@@ -4,7 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TicTacToeFrame extends JFrame implements ActionListener {
+/** @author Olivia
 
+   Assignment 1 making a gui for tic tac toe game
+ */
 
 
     //panels
@@ -168,6 +171,11 @@ public class TicTacToeFrame extends JFrame implements ActionListener {
                 count = 0;
             }
         });
+        Font fontButtons = new Font("Arial", Font.BOLD,18);
+        resetButton.setFont(fontButtons);
+        scoreButton.setFont(fontButtons);
+        quitButton.setFont(fontButtons);
+
 
         buttonPanel.add(resetButton);
         buttonPanel.add(quitButton);
@@ -177,7 +185,7 @@ public class TicTacToeFrame extends JFrame implements ActionListener {
 
         buttonPanel.add(scoreButton); //scoreboard
         scoreButton.addActionListener((ActionEvent e)-> {
-            JOptionPane.showMessageDialog(this,"Player X Wins: " + XplayerWins + "\nPlayer 0 Wins: " + OplayerWins + "\nTies: " + tieWins,
+            JOptionPane.showMessageDialog(this,"Player X Wins: " + XplayerWins + "\nPlayer O Wins: " + OplayerWins + "\nTies: " + tieWins,
                     "ScoreBoard", JOptionPane.INFORMATION_MESSAGE);
         });
     }
