@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TicTacToeFrame extends JFrame implements ActionListener {
-/** @author Olivia
+/** @author scarlaos
 
    Assignment 1 making a gui for tic tac toe game
  */
@@ -79,7 +79,12 @@ public class TicTacToeFrame extends JFrame implements ActionListener {
 
         JButton clickedButton = (JButton)e.getSource();
 
-        if(!clickedButton.getText().equals("")) return; //enforces no clicked
+        if(!clickedButton.getText().equals("")){ //makes sure there's no invalid moves
+
+            JOptionPane.showMessageDialog(this,"This square has already been taken!",
+                    "Invalid Move!",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
 
         if(count % 2 == 0){ //i think this should determine the players turn... haven't tested it yet.
@@ -118,7 +123,7 @@ public class TicTacToeFrame extends JFrame implements ActionListener {
 
 
 
-        //game results in a tie
+        //game results in a full board tie
         if(count == 9 &&!win){
             win = true;
             tieWins ++;
@@ -133,9 +138,43 @@ public class TicTacToeFrame extends JFrame implements ActionListener {
 
             return;
         }
+        //game results in 7 play tie
+        if(count >= 7 && !win){
+            JButton[] allButtons = {buttonOne,buttonTwo,buttonThree,buttonFour,buttonFive,buttonSix,buttonSeven,buttonEight,buttonNine};
 
+            boolean possibleWin = false;
 
+            if(
+            // horizontals
+                    (!buttonOne.getText().equals("")&& buttonOne.getText().equals(buttonTwo.getText())&& buttonTwo.getText().equals(buttonThree.getText())) ||
+                    (!buttonFour.getText().equals("")&& buttonFour.getText().equals(buttonFive.getText())&& buttonFive.getText().equals(buttonSix.getText())) ||
+                    (!buttonSeven.getText().equals("")&& buttonSeven.getText().equals(buttonEight.getText()) && buttonEight.getText().equals(buttonNine.getText()))||
+            // verticles
+                    (!buttonOne.getText().equals("") && buttonOne.getText().equals(buttonFour.getText()) && buttonFour.getText().equals(buttonSeven.getText())) ||
+                    (!buttonTwo.getText().equals("") && buttonTwo.getText().equals(buttonFive.getText())&& buttonFive.getText().equals(buttonEight.getText())) ||
+                    (!buttonThree.getText().equals("")&& buttonThree.getText().equals(buttonSix.getText()) && buttonSix.getText().equals(buttonNine.getText())) ||
+            // diagonals
+                    (!buttonOne.getText().equals("") && buttonOne.getText().equals(buttonFive.getText()) && buttonFive.getText().equals(buttonNine.getText())) ||
+                    (!buttonThree.getText().equals("")&& buttonThree.getText().equals(buttonFive.getText()) && buttonFive.getText().equals(buttonSeven.getText()))
+            ){
+                possibleWin = true; //someone can still win
+            }
 
+            if(!possibleWin){
+                win = true;
+                tieWins++;
+                int playAgain = JOptionPane.showConfirmDialog(this,"The game resulted in a Seven play tie!\nWould you like to play again?",
+                        "Game is Tied!", JOptionPane.YES_NO_OPTION);
+
+                if(playAgain == JOptionPane.YES_OPTION){
+                    reset();
+                }
+                else{
+                    System.exit(0);
+                }
+                return;
+            }
+        }
     }
 
     public boolean checkWin(){
